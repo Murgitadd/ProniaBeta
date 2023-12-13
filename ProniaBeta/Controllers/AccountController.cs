@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using ProniaBeta.Models;
+using ProniaBeta.ViewModels;
 using ProniaBeta.ViewModels.Account;
+using System;
+using System.Threading.Tasks;
 
 namespace ProniaBeta.Controllers
 {
@@ -9,23 +13,41 @@ namespace ProniaBeta.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
         }
+
         public IActionResult Index()
         {
             return View();
         }
+
         public IActionResult Login()
         {
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginVM loginVM)
+        {
+            if (!ModelState.IsValid) return View();
+            AppUser user = await _userManager.FindByEmailAsync(loginVM.Email);
+            if (user == null)
+            {
+                 ModelState.AddModelError(string.Empty, "Email or password is incorrect!");
+        return View();
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
         public IActionResult Register()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterVM userVM)
         {
@@ -49,6 +71,12 @@ namespace ProniaBeta.Controllers
                 return View();
             }
             await _signInManager.SignInAsync(user, isPersistent: false);
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> LogOut()
+        {
+            await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
     }

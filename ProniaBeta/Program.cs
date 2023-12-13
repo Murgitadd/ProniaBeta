@@ -13,7 +13,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options => {
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
-
+    options.Password.RequireUppercase = true;
     options.User.RequireUniqueEmail = true;
 
     options.Lockout.MaxFailedAccessAttempts = 3;

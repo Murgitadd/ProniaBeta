@@ -1,4 +1,6 @@
-﻿<main class="main-content">
+﻿@using ProniaBeta.ViewModels.Account
+@model LoginVM
+<main class="main-content">
     <div class="breadcrumb-area breadcrumb-height"
          data-bg-image="assets/images/breadcrumb/bg/1-1-1919x388.jpg">
         <div class="container h-100">
@@ -18,30 +20,36 @@
         </div>
     </div>
     <div class="login-register-area section-space-y-axis-100">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <form action="#">
-                        <div class="login-form">
-                            <h4 class="login-title">Login</h4>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <label>Email Address*</label>
-                                    <input type="email" placeholder="Email Address" />
-                                </div>
-                                <div class="col-lg-12">
-                                    <label>Password</label>
-                                    <input type="password" placeholder="Password" />
+        <div class="login-register-area section-space-y-axis-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form action="post">
+                            <div class="login-form">
+                                <h4 class="login-title">Login</h4>
+                                <div class="row">
+                                    <div class="text-danger" asp-validation-summary="ModelOnly">
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label asp-for="Email">Email Address*</label>
+                                        <input asp-for="Email" placeholder="Email Address" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label asp-for="Password">Password</label>
+                                        <input asp-for="Password" placeholder="Password" />
+                                        <span asp-validation-for="Password" class="text-danger"></span>
+                                    </div>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="check-box">
-                                        <input type="checkbox" id="remember_me" />
-                                        <label for="remember_me">Remember me</label>
+                                        <input asp-for="isRemembered" type="checkbox" id="remember_me" />
+                                        <label asp-for="isRemembered" for="remember_me">Remember me</label>
                                     </div>
                                 </div>
                                 <div class="col-md-4 pt-1 mt-md-0">
-                                    <div class="forgotton-password_info">
-                                        <a href="#"> Forgotten pasword?</a>
+                                    <div class="forgotten-password_info">
+                                        <a href="#"> Forgotten password?</a>
                                     </div>
                                 </div>
                                 <div class="col-lg-12 pt-5">
@@ -50,10 +58,11 @@
                                     </button>
                                 </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 </main>
